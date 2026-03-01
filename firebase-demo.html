@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Noticias TendenciaRD</title>
+    <meta name="description" content="Últimas noticias de República Dominicana y actualidad del Metro, transporte y más.">
+    <meta name="keywords" content="TendenciaRD, noticias, República Dominicana, Metro, transporte, actualidad">
+    <meta name="author" content="TendenciaRD">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ais-dev-zua3aay57l6rb4dgxoz3rb-49429709091.us-west2.run.app">
+    <meta property="og:title" content="Noticias TendenciaRD">
+    <meta property="og:description" content="Últimas noticias de República Dominicana y actualidad del Metro, transporte y más.">
+    <meta property="og:image" content="https://picsum.photos/seed/tendenciard/1200/630">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ais-dev-zua3aay57l6rb4dgxoz3rb-49429709091.us-west2.run.app">
+    <meta name="twitter:title" content="Noticias TendenciaRD">
+    <meta name="twitter:description" content="Últimas noticias de República Dominicana y actualidad del Metro, transporte y más.">
+    <meta name="twitter:image" content="https://picsum.photos/seed/tendenciard/1200/630">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #D32F2F;
+        }
+
+        /* Ticker (Cintillo) */
+        #ticker-container {
+            background-color: #D32F2F;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 8px 0;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .ticker-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 30s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        #noticias-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1E3A8A;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #D32F2F;
+            padding-bottom: 10px;
+        }
+
+        .noticia {
+            border: 1px solid #e1e4e8;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .noticia:hover {
+            transform: translateY(-2px);
+            border-color: #1E3A8A;
+        }
+
+        /* Image Container for 16:9 Aspect Ratio */
+        .contenedor-imagen {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background-color: #eee;
+        }
+
+        .contenedor-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .noticia h3 {
+            margin: 0 0 12px 0;
+            color: #1E3A8A;
+            font-size: 22px;
+        }
+        .noticia p.meta {
+            margin: 0;
+            color: #65676b;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* Detail View Modal */
+        #detalle-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+        .cerrar-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #1E3A8A;
+        }
+
+        /* Share Buttons Styles */
+        .share-container {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            items-center: center;
+            gap: 6px;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            color: white;
+        }
+        .btn-share { background-color: #1E3A8A; }
+        .btn-copy { background-color: #65676b; }
+        .share-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .share-btn:active { transform: translateY(0); }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1c1e21;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 4000;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .volver-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1E3A8A;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .volver-btn:hover { color: #D32F2F; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="?">Inicio</a>
+        <a href="#">Nacionales</a>
+        <a href="#">Política</a>
+        <a href="#">Deportes</a>
+        <a href="#">Internacional</a>
+    </nav>
+
+    <div id="ticker-container">
+        <div class="ticker-content" id="ticker-text">
+            Cargando noticias de última hora...
+        </div>
+    </div>
+
+    <div id="noticias-container">
+        <div id="btn-volver-container"></div>
+        <h1 id="main-title">Noticias TendenciaRD</h1>
+        <div id="lista-noticias">
+            <div class="loading">Sincronizando con la red de noticias...</div>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div id="detalle-modal">
+        <div class="modal-content" id="modal-body">
+            <!-- Content will be injected here -->
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Enlace copiado</div>
+
+    <!-- Firebase SDKs (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+    <script>
+        // 1. Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "tendenciard-1.firebaseapp.com",
+            projectId: "tendenciard-1",
+            storageBucket: "tendenciard-1.appspot.com",
+            messagingSenderId: "321115519680",
+            appId: "1:321115519680:web:89217a631268a842140b25",
+            measurementId: "G-XXXXXXX"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // --- Meta Tags Management ---
+        function updateMetaTags(data, id) {
+            const url = window.location.origin + window.location.pathname + "?id=" + id;
+            const title = data.titulo || "Noticias TendenciaRD";
+            const description = data.excerpt || data.descripcion || "Últimas noticias de República Dominicana";
+            const image = data.imageUrl || "https://picsum.photos/seed/tendenciard/1200/630";
+
+            document.title = title;
+            
+            // Meta Description
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute("content", description);
+
+            // Open Graph
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute("content", title);
+            
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.setAttribute("content", description);
+            
+            const ogImage = document.querySelector('meta[property="og:image"]');
+            if (ogImage) ogImage.setAttribute("content", image);
+            
+            const ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.setAttribute("content", url);
+
+            // Twitter
+            const twTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twTitle) twTitle.setAttribute("content", title);
+            
+            const twDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twDesc) twDesc.setAttribute("content", description);
+            
+            const twImage = document.querySelector('meta[name="twitter:image"]');
+            if (twImage) twImage.setAttribute("content", image);
+        }
+
+        // --- Sharing System ---
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        }
+
+        async function compartirNoticia(id, titulo, texto) {
+            const publicUrl = "https://tendenciard-1.web.app/?id=" + id;
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: titulo,
+                        text: texto || titulo,
+                        url: publicUrl
+                    });
+                } catch (err) {
+                    console.log("Error sharing:", err);
+                }
+            } else {
+                copiarEnlace(id);
+            }
+        }
+
+        function copiarEnlace(id) {
+            const publicUrl = "https://tendenciard-1.web.app/?id=" + id;
+            navigator.clipboard.writeText(publicUrl).then(() => {
+                showToast("Enlace público copiado al portapapeles");
+            });
+        }
+
+        // Función para formatear fecha (DD/MM/YYYY)
+        function formatFecha(fechaData) {
+            try {
+                const date = fechaData.toDate ? fechaData.toDate() : new Date(fechaData);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            } catch (e) {
+                return "Fecha no disponible";
+            }
+        }
+
+        // Mostrar detalle de noticia (Modal)
+        function verDetalle(data, id) {
+            const modal = document.getElementById('detalle-modal');
+            const body = document.getElementById('modal-body');
+            
+            body.innerHTML = `
+                <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+                <div class="contenedor-imagen">
+                    <img src="${data.imageUrl || 'https://picsum.photos/seed/news/800/450'}" alt="${data.titulo}">
+                </div>
+                <h3>${data.titulo}</h3>
+                <p class="meta">📅 ${formatFecha(data.fecha)} | Por: ${data.autor || 'Redacción'}</p>
+                
+                <div class="share-container">
+                    <button class="share-btn btn-share" onclick="compartirNoticia('${id}', '${data.titulo.replace(/'/g, "\\'")}', '${(data.excerpt || '').replace(/'/g, "\\'")}')">
+                        Compartir
+                    </button>
+                    <button class="share-btn btn-copy" onclick="copiarEnlace('${id}')">
+                        Copiar Enlace
+                    </button>
+                </div>
+
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                <div style="line-height: 1.6; color: #333;">
+                    ${data.contenido || data.excerpt || 'No hay contenido disponible para esta noticia.'}
+                </div>
+            `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Update URL without reloading (optional, but good for UX)
+            // history.pushState(null, "", "?id=" + id);
+        }
+
+        function cerrarModal() {
+            document.getElementById('detalle-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // history.pushState(null, "", window.location.pathname);
+        }
+
+        // 3. Conectar con la colección "noticias"
+        async function cargarNoticias() {
+            const lista = document.getElementById('lista-noticias');
+            const tickerText = document.getElementById('ticker-text');
+            const mainTitle = document.getElementById('main-title');
+            const btnVolverContainer = document.getElementById('btn-volver-container');
+            
+            // Check for ID in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const noticiaId = urlParams.get('id');
+
+            if (noticiaId) {
+                // --- SINGLE NEWS VIEW ---
+                try {
+                    const doc = await db.collection("noticias").doc(noticiaId).get();
+                    if (doc.exists) {
+                        const data = doc.data();
+                        updateMetaTags(data, noticiaId);
+                        
+                        mainTitle.innerText = data.titulo;
+                        btnVolverContainer.innerHTML = `<a href="?" class="volver-btn">← Volver al inicio</a>`;
+                        
+                        lista.innerHTML = `
+                            <div class="noticia-individual">
+                                <div class="contenedor-imagen">
+                                    <img src="${data.imageUrl || 'https://picsum.photos/seed/news/800/450'}" alt="${data.titulo}">
+                                </div>
+                                <p class="meta">📅 ${formatFecha(data.fecha)} | Por: ${data.autor || 'Redacción'}</p>
+                                
+                                <div class="share-container">
+                                    <button class="share-btn btn-share" onclick="compartirNoticia('${noticiaId}', '${data.titulo.replace(/'/g, "\\'")}', '${(data.excerpt || '').replace(/'/g, "\\'")}')">
+                                        Compartir Noticia
+                                    </button>
+                                    <button class="share-btn btn-copy" onclick="copiarEnlace('${noticiaId}')">
+                                        Copiar Enlace
+                                    </button>
+                                </div>
+
+                                <div style="line-height: 1.8; color: #1c1e21; font-size: 18px; margin-top: 30px;">
+                                    ${data.contenido || data.excerpt || 'No hay contenido disponible.'}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        lista.innerHTML = "<p class='loading'>La noticia no existe o ha sido eliminada.</p>";
+                    }
+                } catch (error) {
+                    console.error("Error loading news:", error);
+                    lista.innerHTML = "<p class='loading'>Error al cargar la noticia.</p>";
+                }
+            } else {
+                // --- LIST VIEW ---
+                db.collection("noticias").orderBy("fecha", "desc").onSnapshot((querySnapshot) => {
+                    lista.innerHTML = ""; 
+                    let tickerTitles = [];
+                    
+                    if (querySnapshot.empty) {
+                        lista.innerHTML = "<p class='loading'>No hay noticias publicadas en este momento.</p>";
+                        tickerText.innerText = "No hay noticias recientes.";
+                        return;
+                    }
+
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        tickerTitles.push(data.titulo);
+
+                        const noticiaDiv = document.createElement('div');
+                        noticiaDiv.className = 'noticia';
+                        
+                        noticiaDiv.innerHTML = `
+                            <div onclick="verDetalle(${JSON.stringify(data).replace(/"/g, '&quot;')}, '${id}')">
+                                <div class="contenedor-imagen">
+                                    <img src="${data.imageUrl || 'https://picsum.photos/seed/news/800/450'}" alt="${data.titulo}">
+                                </div>
+                                <h3>${data.titulo || 'Sin título'}</h3>
+                                <p class="meta">📅 ${formatFecha(data.fecha)}</p>
+                            </div>
+                            <div class="share-container">
+                                <button class="share-btn btn-share" onclick="compartirNoticia('${id}', '${data.titulo.replace(/'/g, "\\'")}', '${(data.excerpt || '').replace(/'/g, "\\'")}')">
+                                    Compartir
+                                </button>
+                                <button class="share-btn btn-copy" onclick="copiarEnlace('${id}')">
+                                    Copiar
+                                </button>
+                            </div>
+                        `;
+                        
+                        lista.appendChild(noticiaDiv);
+                    });
+
+                    tickerText.innerText = tickerTitles.join(" • ") + " • ";
+                }, (error) => {
+                    console.error("Error: ", error);
+                    lista.innerHTML = "<p class='loading' style='color:#D32F2F;'>Error de conexión.</p>";
+                });
+            }
+        }
+
+        // 5. Cargar automáticamente al abrir la página
+        window.onload = cargarNoticias;
+    </script>
+</body>
+</html>
